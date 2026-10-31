@@ -1,1 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#061a3a">
+<title>AIN is here — All I Need</title>
+<style>
+*{box-sizing:border-box}
+:root{
+ --navy:#071b3a;--navy2:#0b2c5c;--blue:#0878f9;--blue2:#1c5eea;
+ --purple:#743bd5;--purple2:#8a49e8;--green:#18c875;--gold:#f2b51d;
+ --bg:#f4f8fc;--card:#fff;--line:#d5e2ef;--muted:#6d7f99;--text:#122b55
+}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.header{height:66px;background:linear-gradient(90deg,#061a3a,#0c2d60);display:flex;align-items:center;padding:0 18px;color:#fff;box-shadow:0 2px 10px #00102b55;position:sticky;top:0;z-index:50}
+.brand{border:0;background:none;color:#fff;font-size:21px;font-weight:800;padding:0;position:relative}
+.brand .ain{font-size:29px;letter-spacing:-3px}.a{color:#159eff}.i{color:#ffb514}.n{color:#29c95b}
+.brand .tag{display:block;font-size:8px;letter-spacing:.5px;margin-top:-3px;color:#dbe7f7;text-align:center}
+.tooltip{position:absolute;left:42px;top:39px;background:#182b4c;padding:6px 10px;border-radius:5px;font-size:11px;font-weight:400;white-space:nowrap;display:none;box-shadow:0 4px 10px #0005}
+.brand:hover .tooltip{display:block}
+.nav{margin-left:auto;display:flex;gap:18px;align-items:center}.nav button{border:0;background:none;color:#dce6f4;font-size:12px}.nav button:hover{color:#fff}
+.loginBtn{background:var(--blue)!important;color:#fff!important;border-radius:7px;padding:10px 18px!important;font-weight:700}
+.menu{display:none;margin-left:auto;background:none;border:0;color:#fff;font-size:25px}
+#app{min-height:calc(100vh - 66px)}.page{min-height:calc(100vh - 66px);padding:18px;background:var(--bg)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 14px #173e6a12}
+.back{border:0;background:none;color:#17345f;font-weight:700;font-size:12px;padding:5px 0}
+.btn{border:0;background:var(--blue);color:#fff;border-radius:8px;padding:11px 16px;font-weight:700;box-shadow:0 3px 8px #0878f92e}
+.btn.full{width:100%}.btn.green{background:var(--green)}.btn.purple{background:var(--purple)}.btn.white{background:#fff;color:var(--blue)}
+.title{max-width:850px;margin:8px auto 18px}.title h2{font-size:21px;margin:0}.title p{font-size:11px;color:var(--muted);margin:5px 0}
+.badge{display:inline-block;border-radius:99px;padding:4px 8px;font-size:9px;font-weight:800}.badge.blue{background:#e6f1ff;color:#0767d8}.badge.purple{background:#f0e9ff;color:#6931be}.badge.green{background:#e2fff1;color:#087a49}
+.home{min-height:calc(100vh - 66px);background:linear-gradient(120deg,#061a3a,#09295a 55%,#114da4);color:#fff;position:relative;overflow:hidden}
+.home:before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;right:-170px;top:-90px;background:radial-gradient(circle,#7793ff,#4058cf 42%,transparent 70%);opacity:.8}
+.home-inner{max-width:1080px;min-height:calc(100vh - 66px);margin:auto;padding:48px 28px;position:relative;z-index:1}
+.home-top{display:flex;justify-content:space-between;gap:25px;align-items:center}
+.home h1{font-size:37px;line-height:1.12;margin:0 0 10px}.home .lead{font-size:17px;margin:0 0 8px}.home .desc{max-width:560px;color:#c8d8eb;font-size:13px;line-height:1.55}
+.home-card{margin-top:30px;max-width:650px;background:#ffffff12;border:1px solid #ffffff28;border-radius:15px;padding:18px;backdrop-filter:blur(4px)}
+.home-card h3{margin:0 0 8px;font-size:14px}.home-card p{font-size:11px;color:#dbe6f5}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:18px}
+.role{min-height:92px;border:0;border-radius:11px;color:#fff;text-align:left;padding:16px;box-shadow:0 9px 20px #0004}
+.role small{display:block;font-size:10px;font-weight:600;margin-bottom:8px}.role b{font-size:19px}.role.worker{background:linear-gradient(135deg,#0878f9,#155be0)}.role.customer{background:linear-gradient(135deg,#743bd5,#8a49e8)}
+.mini-flow{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}.mini-flow span{background:#fff;color:#18375f;border-radius:7px;padding:7px 9px;font-size:9px;font-weight:700}
+.flow-arrow{color:#8fc0ff;font-weight:900}
+.dashboard-shell{max-width:1050px;margin:auto}
+.dash-banner{background:linear-gradient(90deg,#0878f9,#155be0);color:#fff;border-radius:13px;padding:18px;margin-bottom:15px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.dash-banner.purple{background:linear-gradient(90deg,#743bd5,#8a49e8)}
+.dash-banner h2{margin:0;font-size:20px}.dash-banner p{margin:5px 0 0;font-size:11px;opacity:.9}
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.dash-card{padding:15px}.dash-card h3{margin:0 0 8px;font-size:14px}
+.action-list{display:grid;gap:8px}.action{border:1px solid var(--line);background:#fff;border-radius:9px;padding:11px;display:flex;align-items:center;gap:10px;text-align:left}
+.action:hover{border-color:#83b8ff;background:#f8fbff}.action .circle{width:31px;height:31px;border-radius:50%;display:grid;place-items:center;background:#e8f2ff;color:var(--blue);font-weight:800}.action.p .circle{background:#f0e8ff;color:var(--purple)}.action strong{display:block;font-size:11px}.action small{display:block;color:var(--muted);font-size:9px;margin-top:2px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{padding:12px;border:1px solid var(--line);border-radius:9px;text-align:center}.stat b{display:block;font-size:20px}.stat small{font-size:9px;color:var(--muted)}
+.fields{max-width:900px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.field{min-height:105px;background:#fff;border:1px solid var(--line);border-radius:11px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;color:#16345f;font-weight:700;font-size:11px;box-shadow:0 2px 8px #173e6a0b}
+.field:hover,.field.selected{border:2px solid #4c9dff;background:#f8fbff}.ico{font-size:28px}
+.form{max-width:500px;margin:15px auto;padding:21px}.form h2{font-size:19px;margin:0 0 4px}.form>p{font-size:11px;color:var(--muted);margin:0 0 16px}
+.row{display:grid;gap:5px;margin-bottom:11px}.row label{font-size:11px;font-weight:700}.row input,.row select,.row textarea{width:100%;border:1px solid #d7e2ee;border-radius:7px;padding:10px;background:#fff;outline:none}.row textarea{height:90px;resize:vertical}
+.photo-box{display:flex;align-items:center;gap:12px;margin-bottom:13px;padding:10px;border:1px dashed #b9cde4;border-radius:9px}.photo-preview{width:55px;height:55px;border-radius:50%;background:#e9f2ff;display:grid;place-items:center;color:#1665c1;font-size:20px;overflow:hidden}.photo-preview img{width:100%;height:100%;object-fit:cover}
+.success{max-width:430px;margin:50px auto;padding:28px;text-align:center}.check{width:54px;height:54px;border-radius:50%;background:#19c878;color:#fff;display:grid;place-items:center;margin:auto;font-size:27px}
+.success h2{font-size:18px}.success p{font-size:11px;color:var(--muted)}.notice{background:#fff6d8;border:1px solid #efd98b;border-radius:8px;padding:12px;font-size:11px;text-align:left;margin:15px 0}
+.price{background:linear-gradient(135deg,#0878f9,#155be0);color:#fff;padding:17px;border-radius:9px;text-align:center}.price small{font-size:11px}.amount{font-size:24px;font-weight:800;margin:7px}
+.worker-list{max-width:760px;margin:auto}.worker-row{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px;margin-bottom:8px}
+.avatar{width:45px;height:45px;border-radius:50%;background:linear-gradient(145deg,#263c5f,#091d3c);color:#fff;display:grid;place-items:center;font-weight:800;flex:none;overflow:hidden}.avatar img{width:100%;height:100%;object-fit:cover}
+.info{flex:1}.info strong{font-size:12px;display:block}.info small{font-size:10px;color:var(--muted);display:block;margin-top:3px}.worker-row .btn{padding:8px 12px;font-size:10px}.own-worker{border:2px solid var(--blue);background:#f8fbff}.you-badge{display:inline-block;background:var(--green);color:#fff;border-radius:4px;padding:2px 5px;font-size:8px;margin-left:5px;vertical-align:middle}
 
+.chat-shell{max-width:680px;margin:15px auto;padding:0;overflow:hidden}.chat-head{display:flex;align-items:center;gap:10px;padding:14px;border-bottom:1px solid var(--line);background:#fff}.chat-head .avatar{width:44px;height:44px}.chat-head strong{display:block;font-size:13px}.chat-head small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.chat-status{margin-left:auto;color:#15bd6d;font-size:10px}.chat-messages{height:420px;overflow:auto;padding:14px;background:#f4f7fb;display:flex;flex-direction:column;gap:8px}.chat-empty{text-align:center;color:var(--muted);font-size:11px;margin:auto}.chat-bubble{max-width:78%;padding:9px 11px;border-radius:13px;font-size:11px;line-height:1.4}.chat-bubble.mine{align-self:flex-end;background:#743bd5;color:#fff;border-bottom-right-radius:4px}.chat-bubble.theirs{align-self:flex-start;background:#fff;color:#233a5c;border:1px solid var(--line);border-bottom-left-radius:4px}.chat-bubble small{display:block;font-size:8px;opacity:.7;margin-top:4px}.chat-form{display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid var(--line)}.chat-form input{flex:1;margin:0;padding:11px;border:1px solid var(--line);border-radius:9px;outline:none}.chat-form .btn{width:auto;margin:0}
+.profile{max-width:680px;margin:15px auto;padding:18px}.profiletop{display:flex;align-items:center;gap:14px}.profiletop .avatar{width:70px;height:70px}.profile hr{border:0;border-top:1px solid #e2e9f1;margin:18px 0}.profile h3{font-size:13px}.profile p,.profile li{font-size:11px;line-height:1.6}.checks{padding-left:0;list-style:none}.checks li:before{content:"✓";color:#15bd6d;font-weight:900;margin-right:8px}
+.login-wrap{min-height:calc(100vh - 66px);display:grid;place-items:center;background:linear-gradient(135deg,#eef5ff,#f6f1ff)}.login{width:min(420px,92vw);padding:24px}.login h2{font-size:19px;margin:0}.login p{font-size:11px;color:var(--muted)}
+.about,.contact{min-height:calc(100vh - 66px);padding:70px 20px}.about{background:#061a3a;color:#fff;text-align:center}.about .big{font-size:55px;font-weight:900}.about p{max-width:600px;margin:15px auto;line-height:1.6;color:#c5d3e7}.contact{background:#f4f8fc}.contact .card{max-width:600px;margin:auto;padding:25px}
+.footer{background:#061a3a;color:#fff;text-align:center;padding:28px 18px}.footer-logo{font-size:24px;font-weight:800}.features{max-width:650px;margin:17px auto;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #ffffff22;border-bottom:1px solid #ffffff22;padding:15px 0}.features span{font-size:21px;border-right:1px solid #ffffff22}.features span:last-child{border-right:0}.features small{display:block;font-size:9px;line-height:1.35;margin-top:5px;color:#d4ddeb}
+@media(max-width:700px){
+ .header{height:62px;padding:0 14px}.nav{display:none;position:absolute;top:62px;left:0;right:0;background:#061a3a;padding:8px 14px;flex-direction:column;gap:2px;align-items:stretch}.nav.open{display:flex}.nav button{padding:12px;text-align:left}.menu{display:block}
+ .home-inner{padding:38px 17px}.home h1{font-size:29px}.home-top{display:block}.roles{grid-template-columns:1fr}.role{min-height:80px}.home-card{margin-top:20px}
+ .dash-grid{grid-template-columns:1fr}.fields{grid-template-columns:repeat(2,1fr);gap:8px}.field{min-height:96px;font-size:10px}.stats{grid-template-columns:repeat(3,1fr)}
+ .worker-row{align-items:flex-start}.worker-row .btn{margin-left:auto}.footer .features{grid-template-columns:repeat(2,1fr);gap:10px}.features span{border-bottom:1px solid #ffffff22;padding-bottom:10px}.features span:nth-child(2){border-right:0}.features span:nth-child(3),.features span:nth-child(4){border-bottom:0}
+}
+</style>
+
+<!-- Set BACKBLAZE_UPLOAD_ENDPOINT to your deployed backend upload URL.
+     Never place a Backblaze application key in this public HTML file. -->
+<script>
+  window.BACKBLAZE_UPLOAD_ENDPOINT = "PASTE_YOUR_DEPLOYED_BACKEND_URL_HERE/api/upload";
+</script>
+
+</head>
+<body>
+<header class="header">
+<button class="brand" onclick="go('home')"><span class="ain"><b class="a">A</b><b class="i">I</b><b class="n">N</b></span> is here<span class="tag">All I Need</span><span class="tooltip">All I Need</span></button>
+<nav class="nav" id="nav"><button onclick="go('home')">Home</button><button onclick="go('about')">About</button><button onclick="go('contact')">Contact</button><button class="loginBtn" onclick="go('login')">Login</button></nav>
+<button class="menu" onclick="document.getElementById('nav').classList.toggle('open')">☰</button>
+</header>
+<div id="app"></div>
+<footer class="footer">
+<div class="footer-logo"><span class="ain"><b class="a">A</b><b class="i">I</b><b class="n">N</b></span> is here</div>
+<p>Connecting Workers and Customers, Making Life Easier!</p>
+<div class="features"><span>🔒<small>Secure<br>Authentication</small></span><span>♙<small>Trusted<br>Workers</small></span><span>⚡<small>Fast & Easy<br>Access</small></span><span>♡<small>Support<br>Always</small></span></div>
+<small>© 2026 AIN is here. All rights reserved.</small>
+</footer>
+<script>
+const app=document.getElementById('app');
+const fields=[['Computer scientists','💻'],['Gamer','🎮'],['Blogger','📝'],['Sound Engineer','🎧'],['Video Editor','▶️'],['Software Engineer','</>'],['Graphic Designer','🎨'],['Software Developer','</>'],['Others','•••']];
+const workers=[['Kwame Beats','2 years experience','Professional sound engineer...','4.8 (12)'],['Abena Audio','3 years experience','Mixing & mastering specialist...','4.7 (8)'],['Kofi Soundz','5 years experience','Audio production & editing...','4.9 (15)'],['Yaw Mix','1 year experience','Sound editing and mixing...','4.6 (7)']];
+function hideNav(){document.getElementById('nav').classList.remove('open')}
+function set(html){app.innerHTML=html;window.scrollTo(0,0)}
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function safe(s){return String(s??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
+function initials(name){return (name||'Worker').split(/\s+/).map(x=>x[0]).join('').slice(0,2).toUpperCase()}
+function getSavedWorker(){try{return JSON.parse(localStorage.getItem('ainWorkerProfile')||'null')}catch(e){return null}}
+function getSavedCustomer(){try{return JSON.parse(localStorage.getItem('ainCustomer')||'null')}catch(e){return null}}
+function fileAsDataURL(file){
+ return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file);});
+}
+async function uploadToBackblaze(file){
+ if(!file)return '';
+ const endpoint=String(window.BACKBLAZE_UPLOAD_ENDPOINT||'').trim();
+ if(endpoint){
+   const body=new FormData();body.append('file',file);
+   const response=await fetch(endpoint,{method:'POST',body});
+   if(!response.ok)throw new Error('Backblaze upload failed ('+response.status+').');
+   const result=await response.json();
+   if(!result.url)throw new Error('Upload endpoint did not return a file URL.');
+   return result.url;
+ }
+ return await fileAsDataURL(file);
+}
+async function saveWorkerProfile(field){
+ const form=document.querySelector('#workerProfileForm'); if(!form)return;
+ const d=new FormData(form),file=form.querySelector('input[name=photo]')?.files?.[0];
+ let photo='';
+ try{photo=await uploadToBackblaze(file)}catch(e){alert('Profile picture upload failed: '+e.message);return null;}
+ const worker={name:d.get('name'),email:String(d.get('email')||'').trim().toLowerCase(),password:String(d.get('password')||''),field,experience:d.get('experience'),description:d.get('description'),photo,subscribed:false,createdAt:new Date().toISOString()};
+ localStorage.setItem('ainWorkerProfile',JSON.stringify(worker)); return worker;
+}
+function saveCustomer(field,name,email,phone,password){
+ const c={name,field,email,phone,password:String(password||''),subscribed:false,createdAt:new Date().toISOString()};
+ localStorage.setItem('ainCustomer',JSON.stringify(c)); return c;
+}
+function home(){
+ hideNav();set(`<section class="home"><div class="home-inner">
+ <div class="home-top"><div>
+  <h1>AIN is here</h1><p class="lead">All I Need — Connecting Workers and Customers</p>
+  <p class="desc">Choose your account type to get started. Workers create profiles and become available to customers. Customers choose the field they need and connect with available workers.</p>
+  <div class="home-card"><h3>Start here</h3><p>Sign up or login as a Worker or Customer.</p>
+   <div class="roles">
+    <button class="role worker" onclick="fieldsPage('worker')"><small>👷 SIGN UP OR LOGIN AS</small><b>Worker</b></button>
+    <button class="role customer" onclick="fieldsPage('customer')"><small>👤 SIGN UP OR LOGIN AS</small><b>Customer</b></button>
+   </div>
+   <div class="mini-flow"><span>1. Account type</span><i class="flow-arrow">→</i><span>2. Sign up / Login</span><i class="flow-arrow">→</i><span>3. Profile</span><i class="flow-arrow">→</i><span>4. Dashboard</span></div>
+  </div>
+ </div></div>
+</div></section>`)
+}
+function fieldsPage(role){
+ set(`<section class="page"><button class="back" onclick="home()">← Back</button>
+ <div class="title"><span class="badge ${role==='worker'?'blue':'purple'}">${role==='worker'?'WORKER':'CUSTOMER'}</span>
+ <h2>${role==='worker'?'Which field do you work in?':'Which field do you need help in?'}</h2>
+ <p>${role==='worker'?'Select your field / skills.':'Choose the type of worker you need.'}</p></div>${grid(role)}</section>`)
+}
+function grid(role){
+ return `<div class="fields">${fields.map(f=>`<button class="field" onclick="${role==='worker'?`workerForm('${safe(f[0])}')`:`customerForm('${safe(f[0])}')`}"><span class="ico">${f[1]}</span>${escapeHtml(f[0])}</button>`).join('')}</div>`
+}
+function workerForm(field){
+ set(`<section class="page"><button class="back" onclick="fieldsPage('worker')">← Back</button>
+ <div class="form card"><span class="badge blue">STEP 1 OF 3</span><h2>Create Your Worker Profile</h2><p>Your profile will be saved under <b>${escapeHtml(field)}</b>.</p>
+ <form id="workerProfileForm" onsubmit="event.preventDefault();createWorkerProfile('${safe(field)}')">
+ <div class="photo-box"><div class="photo-preview" id="photoPreview">👤</div><div><label style="font-size:11px;font-weight:700">Profile picture</label><input type="file" name="photo" accept="image/*" onchange="previewPhoto(event)" style="display:block;margin-top:5px;font-size:10px"></div></div>
+ <div class="row"><label>Name</label><input name="name" required placeholder="Enter your full name"></div>
+ <div class="row"><label>Email</label><input name="email" type="email" required autocomplete="email" placeholder="Enter your email"></div>
+ <div class="row"><label>Password</label><input name="password" type="password" required minlength="6" autocomplete="new-password" placeholder="Create a password (minimum 6 characters)"></div>
+ <div class="row"><label>Field / Work</label><select disabled><option>${escapeHtml(field)}</option></select></div>
+ <div class="row"><label>Experience</label><input name="experience" required placeholder="e.g. 2 years"></div>
+ <div class="row"><label>Description</label><textarea name="description" required placeholder="Tell customers about your work..."></textarea></div>
+ <button class="btn full">Create Profile</button></form>
+ <p style="font-size:10px;color:#6d7f99;margin-top:8px">Your email and password will be used to return to your worker dashboard when you log in.</p>
+ <p style="text-align:center;margin-top:12px">Already have a worker account? <button type="button" class="back" onclick="login('worker')">Login</button></p></div></section>`)
+}
+async function createWorkerProfile(field){const w=await saveWorkerProfile(field);if(w)workerSuccess(field)}
+function previewPhoto(e){const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{document.getElementById('photoPreview').innerHTML=`<img src="${r.result}" alt="Profile">`;};r.readAsDataURL(f)}
+function workerSuccess(field){
+ set(`<section class="page"><div class="success card"><div class="check">✓</div><span class="badge green">PROFILE CREATED</span><h2>Profile Created Successfully!</h2><p>You are now registered as a ${escapeHtml(field)} worker.</p>
+ <div class="notice">🔐 <b>Next step:</b> pay the worker subscription of GHS 80.00 before your profile becomes available to customers.</div>
+ <div class="price"><small>Worker Subscription</small><div class="amount">GHS 80.00</div><button class="btn white" onclick="pay('Worker')">Continue to Payment</button></div></div></section>`)
+}
+function customerForm(field){
+ set(`<section class="page"><button class="back" onclick="fieldsPage('customer')">← Back</button>
+ <div class="form card"><span class="badge purple">CUSTOMER ACCOUNT</span><h2>Create Your Customer Account</h2><p>Choose <b>${escapeHtml(field)}</b> as the field you need.</p>
+ <form onsubmit="event.preventDefault();customerPay('${safe(field)}',this)">
+ <div class="row"><label>Name</label><input name="name" required placeholder="Enter your full name"></div>
+ <div class="row"><label>Email</label><input name="email" type="email" required placeholder="Enter your email"></div>
+ <div class="row"><label>Phone Number</label><input name="phone" required placeholder="Enter your phone number"></div>
+ <div class="row"><label>Password</label><input name="password" type="password" required placeholder="Create a password"></div>
+ <button class="btn purple full">Create Account</button></form>
+ <p style="text-align:center;margin-top:12px">Already have an account? <button class="back" onclick="login('customer')">Login</button></p></div></section>`)
+}
+function customerPay(field,form){
+ const d=new FormData(form);saveCustomer(field,d.get('name'),d.get('email'),d.get('phone'),d.get('password'));
+ set(`<section class="page"><div class="success card"><span class="badge purple">STEP 3 OF 3</span><h2>Subscribe to Continue</h2><p>Customers need an active subscription before contacting workers.</p>
+ <div class="notice" style="background:#f1ebff;border-color:#d9c6ff">🟣 <b>Customer Subscription</b><ul><li>Access workers in your selected field</li><li>View worker profiles</li><li>Contact available workers</li></ul></div>
+ <div class="price" style="background:linear-gradient(135deg,#743bd5,#8a49e8)"><small>Customer Subscription</small><div class="amount">GHS 40.00</div><button class="btn white" onclick="pay('Customer')">Continue to Payment</button></div></div></section>`)
+}
+async function addWorkerToPlatform(){
+ const w=getSavedWorker();
+ if(!w)return null;
+ w.subscribed=true;
+ localStorage.setItem('ainWorkerProfile',JSON.stringify(w));
+ // Backblaze upload is not configured yet; keep the prototype subscription local.
+ return w;
+}
+function activateCustomer(){const c=getSavedCustomer();if(c){c.subscribed=true;localStorage.setItem('ainCustomer',JSON.stringify(c))}}
+function customerSubscribedSuccess(){
+ const c=getSavedCustomer();
+ if(!c?.subscribed){login();return}
+ localStorage.setItem('ainActiveView',JSON.stringify({type:'customerSubscribed'}));
+ set(`<section class="page"><div class="success card">
+   <div class="check">✓</div>
+   <span class="badge green">SUBSCRIPTION ACTIVE</span>
+   <h2>Subscription Successful!</h2>
+   <p>Your GHS 40.00 customer subscription is now active.</p>
+   <div class="notice" style="background:#f1ebff;border-color:#d9c6ff">
+     🟣 <b>You can now access worker profiles.</b><br>
+     Choose your field to see subscribed workers and open their profiles for communication.
+   </div>
+   <button class="btn purple full" style="margin-top:16px" onclick="customerPlatform('${safe(c.field||'Others')}')">👷 View Workers Profiles</button>
+   <button class="back" style="display:block;margin:14px auto 0" onclick="customerDashboard()">Go to Customer Dashboard</button>
+ </div></section>`)
+}
+async function pay(type){
+ // Prototype payment confirmation: activate the subscription and return to the
+ // exact category selected during signup, rather than losing the selected field.
+ if(type==='Worker'){
+   const w=await addWorkerToPlatform();
+   if(w){localStorage.setItem('ainActiveView',JSON.stringify({type:'platform',role:'worker',field:w.field||'Others'}));workerPlatform(w.field||'Others');}
+   return;
+ }
+ if(type==='Customer'){
+   activateCustomer();
+   const c=getSavedCustomer();
+   if(c){localStorage.setItem('ainActiveView',JSON.stringify({type:'platform',role:'customer',field:c.field||'Others'}));await customerPlatform(c.field||'Others');}
+   return;
+ }
+}
+function workerDashboard(){
+ const w=getSavedWorker();
+ localStorage.setItem('ainActiveView',JSON.stringify({type:'dashboard',role:'worker'}));
+ set(`<section class="page"><div class="dashboard-shell">
+ <div class="dash-banner"><div><span class="badge" style="background:#ffffff2b;color:#fff">WORKER DASHBOARD</span><h2>Welcome, ${escapeHtml(w?.name||'Worker')}</h2><p>Your profile is active. Customers can find you in ${escapeHtml(w?.field||'your field')}.</p></div><button class="btn white" onclick="logout()">Logout</button></div>
+ <div class="dash-grid"><div class="dash-card card"><h3>Worker Profile</h3><div class="action-list">
+ <button class="action" onclick="fieldProfile()"><span class="circle">👤</span><div><strong>View / Update Profile</strong><small>${escapeHtml(w?.field||'Worker')} · ${escapeHtml(w?.experience||'')}</small></div></button>
+ <button class="action" onclick="workerMessages()"><span class="circle">💬</span><div><strong>Messages</strong><small>Chat with customers who contact you</small></div></button>
+ <button class="action" onclick="workerPlatform('${safe(w?.field||'Others')}')"><span class="circle">👷</span><div><strong>View ${escapeHtml(w?.field||'Field')} Platform</strong><small>See workers in your field</small></div></button>
+ </div></div>
+ <div class="dash-card card"><h3>Account Status</h3><div class="stats"><div class="stat"><b>✓</b><small>Authenticated</small></div><div class="stat"><b>✓</b><small>Profile</small></div><div class="stat"><b>GHS 80</b><small>Subscription</small></div></div></div></div>
+ <div class="dash-card card" style="margin-top:13px"><h3>Quick Flow</h3><div class="mini-flow"><span>Profile created</span><i class="flow-arrow">→</i><span>Subscription active</span><i class="flow-arrow">→</i><span>Available to customers</span><i class="flow-arrow">→</i><span>Get customers</span></div></div>
+ </div></section>`)
+}
+function customerDashboard(){
+ const c=getSavedCustomer();
+ localStorage.setItem('ainActiveView',JSON.stringify({type:'dashboard',role:'customer'}));
+ set(`<section class="page"><div class="dashboard-shell">
+ <div class="dash-banner purple"><div><span class="badge" style="background:#ffffff2b;color:#fff">CUSTOMER DASHBOARD</span><h2>Welcome, ${escapeHtml(c?.name||'Customer')}</h2><p>Your subscription is active. Choose a field to find a worker.</p></div><button class="btn white" onclick="logout()">Logout</button></div>
+ <div class="dash-grid"><div class="dash-card card"><h3>Find a Worker</h3><div class="action-list">
+ <button class="action p" onclick="customerPlatform('${safe(c?.field||'Others')}')"><span class="circle">👷</span><div><strong>View Workers Profiles</strong><small>Open profiles in your selected field and contact a worker</small></div></button>
+ <button class="action" onclick="fieldsPage('customer')"><span class="circle">🔎</span><div><strong>Change field / worker type</strong><small>Choose a different type of worker</small></div></button>
+ </div></div>
+ <div class="dash-card card"><h3>Account Status</h3><div class="stats"><div class="stat"><b>✓</b><small>Authenticated</small></div><div class="stat"><b>✓</b><small>Profile</small></div><div class="stat"><b>GHS 40</b><small>Subscription</small></div></div></div></div>
+ <div class="dash-card card" style="margin-top:13px"><h3>Quick Flow</h3><div class="mini-flow"><span>Account created</span><i class="flow-arrow">→</i><span>Subscription active</span><i class="flow-arrow">→</i><span>Choose field</span><i class="flow-arrow">→</i><span>Contact worker</span></div></div>
+ </div></section>`)
+}
+function workerPlatform(field){
+ localStorage.setItem('ainActiveView',JSON.stringify({type:'platform',role:'worker',field}));
+ const me=getSavedWorker();const own=me&&me.subscribed&&me.field===field?`<div class="worker-row own-worker"><div class="avatar">${me.photo?`<img src="${me.photo}">`:initials(me.name)}</div><div class="info"><strong>${escapeHtml(me.name)} <span class="you-badge">YOU</span></strong><small>${escapeHtml(me.experience||'')}</small><small>${escapeHtml(me.description||field)}</small></div><button class="btn" onclick="fieldProfile()">My Profile</button></div>`:'';
+ const names={"Video Editor":["Kojo Visuals","Ama Cutz","Kofi Motion","Yaw Edit"],"Computer scientists":["Nana Systems","Ama Code","Kofi Tech","Yaw Labs"],"Gamer":["Gamer Pro","Akua Plays","Kofi Gaming","Yaw XP"],"Blogger":["Ama Writes","Kojo Blog","Nana Media","Yaw Stories"],"Software Engineer":["Kofi Dev","Ama Systems","Yaw Code","Nana Software"],"Graphic Designer":["Ama Designs","Kojo Creative","Nana Graphics","Yaw Studio"],"Software Developer":["Kofi Apps","Ama Dev","Yaw Software","Nana Code"],"Others":["Skilled Pro 1","Skilled Pro 2","Skilled Pro 3","Skilled Pro 4"],"Sound Engineer":["Kwame Beats","Abena Audio","Kofi Soundz","Yaw Mix"]};
+ const arr=names[field]||workers.map(x=>x[0]);
+ const rows=arr.map((n,i)=>`<div class="worker-row"><div class="avatar">${initials(n)}</div><div class="info"><strong>${escapeHtml(n)}</strong><small>${i+1} year${i===0?'':'s'} experience</small><small>Professional ${escapeHtml(field.toLowerCase())}...</small></div><button class="btn" onclick="profile('${safe(n)}','${safe(field)}',false,'worker')">View Profile</button></div>`).join('');
+ set(`<section class="page"><button class="back" onclick="workerDashboard()">← Back to Worker Dashboard</button><div class="title"><span class="badge blue">WORKER PLATFORM</span><h2>${escapeHtml(field)}</h2><p>Your profile appears here after your GHS 80 subscription is active.</p></div>${own}<div class="worker-list">${rows}</div></section>`)
+}
+async function customerPlatform(field){
+  const c=getSavedCustomer();
+  if(!c?.subscribed){ alert('Please complete the GHS 40.00 customer subscription first.'); login(); return; }
+  localStorage.setItem('ainActiveView',JSON.stringify({type:'platform',role:'customer',field}));
+  set(`<section class="page"><button class="back" onclick="customerDashboard()">← Back to Customer Dashboard</button>
+    <div class="title"><span class="badge purple">CUSTOMER DASHBOARD</span><h2>Available ${escapeHtml(field)} Workers</h2><p>Choose a worker to view the profile and start a private chat.</p></div>
+    <div class="notice" style="max-width:760px;margin:0 auto 12px;background:#f1ebff;border-color:#d9c6ff">🟣 Customer subscription active for <b>${escapeHtml(c.field||field)}</b>. Workers with an active GHS 80.00 subscription can be contacted.</div>
+    <div id="customerWorkerList" class="worker-list"><div class="card" style="padding:20px;text-align:center">Loading available workers…</div></div></section>`);
+  const list=document.getElementById('customerWorkerList');
+  // Local mode: worker and customer can be tested as two different people on the same browser/device.
+  const local=getSavedWorker();
+  if(local && local.subscribed && String(local.field||'').trim()===String(field||'').trim()){
+    list.innerHTML=`<div class="worker-row own-worker"><div class="avatar">${local.photo?`<img src="${escapeHtml(local.photo)}">`:initials(local.name)}</div><div class="info"><strong>${escapeHtml(local.name||'Worker')} <span class="you-badge">AVAILABLE</span></strong><small>${escapeHtml(local.experience||'Experience not provided')}</small><small>${escapeHtml(local.description||'Professional worker available')}</small></div><button class="btn purple" onclick="localWorkerProfileForCustomer()">View Profile</button></div>`;
+  }else{
+    list.innerHTML=`<div class="card" style="padding:22px;text-align:center"><b>No subscribed ${escapeHtml(field)} workers found yet.</b><p style="font-size:11px;color:#6d7f99">A subscribed ${escapeHtml(field)} worker will appear here automatically after completing the GHS 80.00 subscription.</p></div>`;
+  }
+}
+
+function localWorkerProfileForCustomer(){
+ const w=getSavedWorker(); if(!w?.subscribed){alert('Worker is not available.');return;}
+ // Remember this exact customer-viewed worker profile so a browser refresh
+ // stays on this profile instead of restoring the Workers list.
+ localStorage.setItem('ainActiveView',JSON.stringify({
+   type:'localWorkerProfile',
+   viewer:'customer',
+   workerName:w.name||'Worker',
+   workerEmail:w.email||'',
+   field:w.field||'Others'
+ }));
+ set(`<section class="page"><button class="back" onclick="customerPlatform('${safe(w.field||'Others')}')">← Back to Workers</button><div class="profile card"><div class="profiletop"><div class="avatar">${w.photo?`<img src="${escapeHtml(w.photo)}">`:initials(w.name)}</div><div><b style="font-size:16px">${escapeHtml(w.name||'Worker')}</b><div style="font-size:10px;color:#71819a">${escapeHtml(w.experience||'')}</div><span class="badge purple" style="margin-top:5px">${escapeHtml(w.field||'Worker')}</span></div></div><hr><h3>About</h3><p>${escapeHtml(w.description||'No description provided.')}</p><h3>Services</h3><ul class="checks"><li>Professional service</li><li>Quality work</li><li>Fast communication</li><li>Customer support</li></ul><button class="btn purple full" onclick="openChat('local-${safe(w.email||w.name)}','${safe(w.name||'Worker')}','${safe(w.field||'Others')}','customer')">💬 Chat with ${escapeHtml(w.name||'Worker')}</button></div></section>`);
+}
+
+async function contactWorker(workerId,workerName){
+ const c=getSavedCustomer(); if(!c?.subscribed){alert('Please activate your GHS 40.00 subscription first.');return;}
+ openChat(workerId,workerName,c.field||'Others','customer');
+}
+
+function chatKey(workerId,customerId){return 'ainChat_'+String(workerId)+'_'+String(customerId);}
+function getChatMessages(workerId,customerId){try{return JSON.parse(localStorage.getItem(chatKey(workerId,customerId))||'[]')}catch(e){return []}}
+function saveChatMessages(workerId,customerId,msgs){localStorage.setItem(chatKey(workerId,customerId),JSON.stringify(msgs));}
+
+function openChat(workerId,workerName,field,viewer='customer',customerId){
+ const c=getSavedCustomer(); const w=getSavedWorker();
+ const cid=customerId || c?.email || 'customer';
+ const wid=workerId || ('local-'+(w?.email||w?.name||'worker'));
+ localStorage.setItem('ainActiveView',JSON.stringify({type:'chat',workerId:wid,workerName,field,viewer,customerId:cid}));
+ const msgs=getChatMessages(wid,cid);
+ set(`<section class="page"><button class="back" onclick="${viewer==='worker'?'workerMessages()':`customerPlatform('${safe(field)}')`}">← Back</button><div class="chat-shell card"><div class="chat-head"><div class="avatar">${initials(workerName)}</div><div><strong>${escapeHtml(workerName)}</strong><small>${escapeHtml(field)} · Private chat</small></div><span class="chat-status">● Online</span></div><div id="chatMessages" class="chat-messages">${msgs.length?msgs.map(m=>chatBubble(m,viewer)).join(''):`<div class="chat-empty">Start the conversation with ${escapeHtml(workerName)}.</div>`}</div><form class="chat-form" onsubmit="event.preventDefault();sendChatMessage('${safe(wid)}','${safe(cid)}','${safe(workerName)}','${safe(field)}','${safe(viewer)}',this)"><input name="message" required maxlength="1000" placeholder="Type your message…" autocomplete="off"><button class="btn purple">Send</button></form></div></section>`);
+ const box=document.getElementById('chatMessages'); if(box)box.scrollTop=box.scrollHeight;
+}
+function chatBubble(m,viewer){return `<div class="chat-bubble ${m.sender===viewer?'mine':'theirs'}"><div>${escapeHtml(m.text)}</div><small>${escapeHtml(m.time||'')}</small></div>`}
+async function sendChatMessage(workerId,customerId,workerName,field,viewer,form){
+ const input=form.message; const text=input.value.trim(); if(!text)return;
+ const sender=viewer==='worker'?'worker':'customer'; const receiver=sender==='worker'?'customer':'worker';
+ const msg={sender,receiver,text,time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),createdAt:Date.now()};
+ const msgs=getChatMessages(workerId,customerId); msgs.push(msg); saveChatMessages(workerId,customerId,msgs); input.value=''; openChat(workerId,workerName,field,viewer,customerId);
+}
+
+function workerMessages(){
+ const w=getSavedWorker(); if(!w){alert('Worker profile not found.');return;}
+ // Remember that the worker is on the Messages page. This is separate from
+ // the worker dashboard so a browser refresh restores Messages itself.
+ localStorage.setItem('ainActiveView',JSON.stringify({type:'workerMessages'}));
+ const cid='customer';
+ const keyPrefix='ainChat_local-'+(w.email||w.name||'worker')+'_';
+ const chats=[]; for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.indexOf(keyPrefix)===0)chats.push(k)}
+ if(!chats.length){set(`<section class="page"><button class="back" onclick="workerDashboard()">← Back</button><div class="card" style="padding:25px;text-align:center"><h2>Messages</h2><p>No customer chats yet.</p></div></section>`);return;}
+ const rows=chats.map(k=>{const id=k.slice(keyPrefix.length);const msgs=getChatMessages('local-'+(w.email||w.name||'worker'),id);const last=msgs[msgs.length-1];return `<button class="action card" style="width:100%;text-align:left;margin-bottom:8px" onclick="openChat('local-${safe(w.email||w.name||'worker')}','Customer','${safe(w.field||'Others')}','worker','${safe(id)}')"><strong>💬 Customer</strong><small>${escapeHtml(last?.text||'New conversation')}</small></button>`}).join('');
+ set(`<section class="page"><button class="back" onclick="workerDashboard()">← Back</button><div class="title"><h2>Messages</h2><p>Customer conversations for your profile.</p></div>${rows}</section>`);
+}
+
+function fieldProfile(){const w=getSavedWorker();if(w)profile(w.name,w.field,true,'worker')}
+function updateWorkerProfile(){
+ const w=getSavedWorker();
+ if(!w){alert('No worker profile found.');return;}
+ const fields=['Computer scientists','Gamer','Blogger','Sound Engineer','Video Editor','Software Engineer','Graphic Designer','Software Developer','Others'];
+ set(`<section class="page"><button class="back" onclick="fieldProfile()">← Back to Profile</button>
+ <div class="form card"><span class="badge blue">UPDATE WORKER PROFILE</span><h2>Update Your Profile</h2>
+ <p>Change your name, field, profile picture, working experience or description. Your active subscription will remain active.</p>
+ <form id="updateWorkerForm" onsubmit="event.preventDefault();saveUpdatedWorkerProfile(this)">
+ <div class="photo-box"><div class="photo-preview" id="updatePhotoPreview">${w.photo?`<img src="${w.photo}" alt="Profile">`:'👤'}</div><div><label style="font-size:11px;font-weight:700">Profile picture</label><input type="file" name="photo" accept="image/*" onchange="previewUpdatePhoto(event)" style="display:block;margin-top:5px;font-size:10px"></div></div>
+ <div class="row"><label>Name</label><input name="name" required value="${escapeHtml(w.name||'')}"></div>
+ <div class="row"><label>Field / Work</label><select name="field">${fields.map(f=>`<option value="${escapeHtml(f)}" ${w.field===f?'selected':''}>${escapeHtml(f)}</option>`).join('')}</select></div>
+ <div class="row"><label>Working Experience</label><input name="experience" required value="${escapeHtml(w.experience||'')}" placeholder="e.g. 3 years"></div>
+ <div class="row"><label>Description</label><textarea name="description" required>${escapeHtml(w.description||'')}</textarea></div>
+ <button class="btn full">Save Profile Changes</button></form></div></section>`)
+}
+function previewUpdatePhoto(e){const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{const el=document.getElementById('updatePhotoPreview');if(el)el.innerHTML=`<img src="${r.result}" alt="Profile">`;};r.readAsDataURL(f)}
+function saveUpdatedWorkerProfile(form){
+ const old=getSavedWorker();if(!old)return;
+ const d=new FormData(form);const file=form.querySelector('input[name=photo]')?.files?.[0];
+ const finish=(photo)=>{
+   const updated={...old,name:String(d.get('name')||'').trim(),field:String(d.get('field')||old.field),experience:String(d.get('experience')||'').trim(),description:String(d.get('description')||'').trim(),photo:photo||old.photo||'',subscribed:!!old.subscribed,createdAt:old.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()};
+   localStorage.setItem('ainWorkerProfile',JSON.stringify(updated));
+   localStorage.setItem('ainActiveView',JSON.stringify({type:'profile',viewer:'worker',name:updated.name,field:updated.field,isOwn:true}));
+   alert('Your worker profile has been updated successfully.');
+   profile(updated.name,updated.field,true,'worker');
+ };
+ if(file){uploadToBackblaze(file).then(finish).catch(e=>alert('Profile picture upload failed: '+e.message));}else finish(old.photo||'');
+}
+
+function profile(name,field,isOwn=false,viewer='worker'){
+ const w=workers.find(x=>x[0]===name)||workers[0];const me=getSavedWorker();const own=isOwn&&me;const display=own?me.name:name;const exp=own?me.experience:w[1];const desc=own?me.description:`Professional ${field.toLowerCase()} ready to help customers with quality work.`;
+ localStorage.setItem('ainActiveView',JSON.stringify({type:'profile',viewer,name:display,field,isOwn:!!isOwn}));
+ const back=viewer==='customer'?`customerPlatform('${safe(field)}')`:`workerPlatform('${safe(field)}')`;
+ const action=own?`<button class="btn full" onclick="updateWorkerProfile()">✏️ Update Profile</button><button class="btn full" style="margin-top:10px" onclick="fieldProfile()">Profile Active ✓</button>`:`<button class="btn full ${viewer==='customer'?'purple':''}" onclick="contactPrototype('${safe(display)}')">Chat / Contact</button>`;
+ set(`<section class="page"><button class="back" onclick="${back}">← Back</button><div class="profile card"><div class="profiletop"><div class="avatar">${own&&me.photo?`<img src="${me.photo}">`:initials(display)}</div><div><b style="font-size:16px">${escapeHtml(display)}</b>${own?'<div class="you-badge">YOUR PROFILE</div>':''}<div style="font-size:10px;color:#71819a">${escapeHtml(exp)}</div><span class="badge ${viewer==='customer'?'purple':'blue'}" style="margin-top:5px">${escapeHtml(field)}</span></div></div><hr><h3>About</h3><p>${escapeHtml(desc)}</p><h3>Services</h3><ul class="checks"><li>Professional service</li><li>Quality work</li><li>Fast communication</li><li>Customer support</li></ul>${action}</div></section>`)
+}
+function contactPrototype(name){alert('Open a worker profile from the workers list to start a chat with '+name+'.')}
+function login(role='',showSignup=false){
+ const isCustomer=role==='customer';
+ const isWorker=role==='worker';
+ localStorage.setItem('ainActiveView',JSON.stringify({type:'login',role,showSignup:!!showSignup}));
+ const signup=showSignup?`<div style="margin-top:14px;padding-top:14px;border-top:1px solid #e2e8f0;text-align:center"><p style="margin:0 0 8px;color:#71819a">Don't have the correct account?</p><button type="button" class="btn ${isCustomer?'purple':''} full" onclick="fieldsPage('${isCustomer?'customer':'worker'}')">Sign Up as ${isCustomer?'Customer':'Worker'}</button></div>`:'';
+ set(`<section class="login-wrap"><div class="login card"><span class="badge ${isCustomer?'purple':'blue'}">${isCustomer?'CUSTOMER':'ACCOUNT'} LOGIN</span><h2>Welcome Back!</h2><p>Sign in to your ${isCustomer?'customer':'account'} dashboard.</p><form onsubmit="event.preventDefault();demoLogin('${role}')"><div class="row"><label>Email</label><input id="loginEmail" type="email" required placeholder="Enter your email"></div><div class="row"><label>Password</label><input id="loginPassword" type="password" required placeholder="Enter your password"></div><button class="btn ${isCustomer?'purple':'full'} full">Sign In</button></form><p style="text-align:center">${isCustomer?'You will return to your Customer Dashboard.':'Choose the correct account type before signing in.'}</p>${signup}</div></section>`)
+}
+function demoLogin(role=''){
+ const w=getSavedWorker(),c=getSavedCustomer();
+ const email=(document.getElementById('loginEmail')?.value||'').trim().toLowerCase();
+ const password=(document.getElementById('loginPassword')?.value||'');
+ if(role==='customer'){
+   if(c?.subscribed && String(c.email||'').toLowerCase()===email && String(c.password||'')===password){customerDashboard();return}
+   if(c && String(c.email||'').toLowerCase()===email && String(c.password||'')!==password){ alert('Incorrect customer password.'); login('customer',true); return }
+   if(c){ alert('Customer account found, but the email does not match this account.'); login('customer',true); return }
+   alert('No customer account found. Please create a Customer account first.'); login('customer',true); return;
+ }
+ if(role==='worker'){
+   if(w?.subscribed && String(w.email||'').toLowerCase()===email && String(w.password||'')===password){workerDashboard();return}
+   if(w && String(w.email||'').toLowerCase()===email && String(w.password||'')!==password){ alert('Incorrect worker password.'); login('worker',true); return }
+   if(w && String(w.email||'').toLowerCase()!==email){ alert('Worker account found, but the email does not match this account.'); login('worker',true); return }
+   alert('No worker account found. Please create a Worker account first.'); login('worker',true); return;
+ }
+ alert('Please choose Customer Login or Worker Login so AIN opens the correct dashboard.');
+}
+function logout(){
+ localStorage.removeItem('ainActiveView');localStorage.removeItem('ainWorkerProfile');localStorage.removeItem('ainCustomer');home();
+}
+function about(){set(`<section class="about"><div class="big"><b class="a">A</b><b class="i">I</b><b class="n">N</b> is here</div><h2>All I Need</h2><p>AIN is here connects people who need a service with people who have the skills to provide it.</p><p>The interface follows the planned flow: account type → authentication → profile creation → subscription → role-based dashboard → worker/customer connection.</p></section>`)}
+function contact(){set(`<section class="contact"><div class="contact card"><h2>Contact AIN</h2><p>Tell us what you need help with.</p><form onsubmit="event.preventDefault();alert('Message submitted in this prototype.')"><div class="row"><label>Name</label><input required></div><div class="row"><label>Email</label><input type="email" required></div><div class="row"><label>Message</label><textarea required></textarea></div><button class="btn full">Send Message</button></form></div></section>`)}
+function go(page){hideNav();if(page==='home')home();else if(page==='about')about();else if(page==='contact')contact();else if(page==='login')login();else home()}
+function restoreSession(){
+ // Restore the last active SPA view from localStorage.
+ // Do NOT depend on performance.navigation/reload detection: some mobile
+ // browsers report refreshes differently, which previously sent chat back
+ // to a dashboard or Home.
+ const w=getSavedWorker(),c=getSavedCustomer();
+ let a=null;
+ try{a=JSON.parse(localStorage.getItem('ainActiveView')||'null')}catch(e){a=null}
+
+ // Restore the login page itself after refresh.
+ if(a?.type==='login' && (a.role==='customer' || a.role==='worker')){
+   login(a.role,!!a.showSignup);
+   return;
+ }
+
+ // A saved chat always has priority over the role dashboard.
+ if(a?.type==='chat'){
+   if(a.viewer==='customer' && c?.subscribed){
+     openChat(a.workerId,a.workerName,a.field,'customer',a.customerId);
+     return;
+   }
+   if(a.viewer==='worker' && w?.subscribed){
+     openChat(a.workerId,a.workerName,a.field,'worker',a.customerId);
+     return;
+   }
+ }
+
+ // Restore the exact profile that was open.
+ if(a?.type==='profile'){
+   // The user could only have reached this profile after the relevant
+   // account was active, so restore the profile even if an old prototype
+   // record has a stale/missing subscribed flag.
+   if(a.viewer==='customer' && c){
+     profile(a.name,a.field,false,'customer');
+     return;
+   }
+   if(a.viewer==='worker' && w){
+     profile(a.name,a.field,!!a.isOwn,'worker');
+     return;
+   }
+ }
+
+ // Restore a Backblaze worker profile opened by a customer.
+ if(a?.type==='BackblazeWorkerProfile' && a.workerId){
+   if(c){
+     BackblazeWorkerProfile(a.workerId,'customer');
+     return;
+   }
+ }
+
+ // Restore a locally stored worker profile opened by a customer.
+ // This must be checked before the customer Workers platform so refresh
+ // returns to the exact profile that was visible.
+ if(a?.type==='localWorkerProfile' && c){
+   const wLocal=getSavedWorker();
+   if(wLocal?.subscribed){
+     localWorkerProfileForCustomer();
+     return;
+   }
+ }
+
+ // Restore the worker Messages page itself.
+ if(a?.type==='workerMessages'){
+   if(w?.subscribed){
+     workerMessages();
+     return;
+   }
+ }
+
+ // Restore the exact worker/customer platform.
+ if(a?.type==='platform'){
+   if(a.role==='customer' && c?.subscribed){
+     customerPlatform(a.field);
+     return;
+   }
+   if(a.role==='worker' && w?.subscribed){
+     workerPlatform(a.field);
+     return;
+   }
+ }
+
+ // Restore the correct role dashboard.
+ if(a?.type==='dashboard'){
+   if(a.role==='customer' && c?.subscribed){
+     customerDashboard();
+     return;
+   }
+   if(a.role==='worker' && w?.subscribed){
+     workerDashboard();
+     return;
+   }
+ }
+
+ // No saved active view/account: this is a normal fresh visit.
+ home();
+}
+restoreSession();
+</script>
+</body>
+</html>
